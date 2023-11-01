@@ -8,7 +8,14 @@ const Update = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [updateData, setUpdateData] = useState();
+  const [updateData, setUpdateData] = useState({
+    name: "",
+    email: "",
+    age: "",
+    gender: "Male",
+  });
+
+
 
   const { users } = useSelector((state) => state.app);
 
@@ -17,13 +24,11 @@ const Update = () => {
       const singleUser = users.filter((ele) => ele.id === id);
       setUpdateData(singleUser[0]);
     }
-  }, [id,users]);
+  }, [id, users]);
 
   const newData = (e) => {
     setUpdateData({ ...updateData, [e.target.name]: e.target.value });
   };
-
-  console.log("updated data", updateData);
 
   const handleUpdate = (e) => {
     e.preventDefault();
@@ -32,65 +37,80 @@ const Update = () => {
   };
 
   return (
-    <div className="m-4">
-      <h2 className="my-2 text-xl font-semibold">Edit the data</h2>
+    <div>
+      <h2 className="my-2 text-2xl font-semibold">Edit the data</h2>
       <form className="w-1/2 mx-auto my-5" onSubmit={handleUpdate}>
         <div className="mb-4">
-          <label className="block text-gray-600">Name</label>
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Name
+          </label>
           <input
             type="text"
             name="name"
-            className="w-full p-2 border rounded-md"
-            value={updateData && updateData.name}
+            className="block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-400"
+            value={updateData.name}
             onChange={newData}
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-600">Email</label>
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Email
+          </label>
           <input
             type="email"
             name="email"
-            className="w-full p-2 border rounded-md"
-            value={updateData && updateData.email}
+            className="block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-400"
+            value={updateData.email}
             onChange={newData}
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-600">Age</label>
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Age
+          </label>
           <input
             type="text"
             name="age"
-            className="w-full p-2 border rounded-md"
-            value={updateData && updateData.age}
+            className="block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-400"
+            value={updateData.age}
             onChange={newData}
           />
         </div>
         <div className="mb-4">
-          <input
-            className="mr-2"
-            name="gender"
-            value="Male"
-            type="radio"
-            checked={updateData && updateData.gender === "Male"}
-            onChange={newData}
-          />
-          <label className="text-gray-600">Male</label>
-        </div>
-        <div className="mb-4">
-          <input
-            className="mr-2"
-            name="gender"
-            value="Female"
-            type="radio"
-            checked={updateData && updateData.gender === "Female"}
-            onChange={newData}
-          />
-          <label className="text-gray-600">Female</label>
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Gender
+          </label>
+          <div>
+            <label className="inline-flex items-center">
+              <input
+                type="radio"
+                name="gender"
+                value="Male"
+                className="form-radio text-blue-500"
+                checked={updateData.gender === "Male"}
+                onChange={newData}
+              />
+              <span className="ml-2">Male</span>
+            </label>
+          </div>
+          <div>
+            <label className="inline-flex items-center">
+              <input
+                type="radio"
+                name="gender"
+                value="Female"
+                className="form-radio text-blue-500"
+                checked={updateData && updateData.gender === "Female"}
+                onChange={newData}
+              />
+              <span className="ml-2">Female</span>
+            </label>
+          </div>
         </div>
 
         <button
           type="submit"
-          className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring focus:border-blue-300"
         >
           Submit
         </button>

@@ -4,22 +4,22 @@ import { useSelector } from "react-redux";
 const CustomModal = ({ id, setShowPopup }) => {
   const allusers = useSelector((state) => state.app.users);
 
-  const singleUser = allusers.filter((ele) => ele.id === id);
-  console.log("singleuser", singleUser);
+  const singleUser = allusers.find((ele) => ele.id === id);
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
-      <div className="bg-white p-6 rounded-lg shadow-md w-1/2">
-        <button
-          className="absolute top-2 right-2 text-gray-600 hover:text-gray-800"
-          onClick={() => setShowPopup(false)}
-        >
-          Close
-        </button>
-        <h2 className="text-2xl font-semibold">{singleUser[0].name}</h2>
-        <h3 className="text-lg text-gray-600">{singleUser[0].email}</h3>
-        <h4 className="text-lg text-gray-600">{singleUser[0].age}</h4>
-        <p className="text-lg text-gray-600">{singleUser[0].gender}</p>
+      <div className="modal-container bg-white w-96 rounded shadow-lg p-4">
+        <div className="modal-header flex justify-between">
+          <h2 className="text-2xl font-semibold">{singleUser.name}</h2>
+          <button onClick={() => setShowPopup(false)} className="text-gray-500">
+            Close
+          </button>
+        </div>
+        <div className="modal-content">
+          <h3 className="text-lg font-semibold">{singleUser.email}</h3>
+          <p>Age: {singleUser.age}</p>
+          <p>Gender: {singleUser.gender}</p>
+        </div>
       </div>
     </div>
   );

@@ -32,50 +32,50 @@ const Read = () => {
           setShowPopup={setShowPopup}
         />
       )}
-      <h2 className="text-2xl font-semibold">All data</h2>
-      <div className="mb-4">
-        <input
-          className="form-radio text-blue-500"
-          name="gender"
-          checked={radioData === ""}
-          type="radio"
-          onChange={() => setRadioData("")}
-        />
-        <label className="ml-2 text-gray-700">All</label>
-      </div>
-      <div className="mb-4">
-        <input
-          className="form-radio text-blue-500"
-          name="gender"
-          checked={radioData === "Male"}
-          value="Male"
-          type="radio"
-          onChange={(e) => setRadioData(e.target.value)}
-        />
-        <label className="ml-2 text-gray-700">Male</label>
-      </div>
-      <div className="mb-4">
-        <input
-          className="form-radio text-blue-500"
-          name="gender"
-          value="Female"
-          checked={radioData === "Female"}
-          type="radio"
-          onChange={(e) => setRadioData(e.target.value)}
-        />
-        <label className="ml-2 text-gray-700">Female</label>
+      <h2>All data</h2>
+      <div className="space-y-2">
+        <label className="flex items-center space-x-2">
+          <input
+            className="form-radio h-5 w-5 text-blue-500"
+            name="gender"
+            checked={radioData === ""}
+            type="radio"
+            onChange={() => setRadioData("")}
+          />
+          <span>All</span>
+        </label>
+        <label className="flex items-center space-x-2">
+          <input
+            className="form-radio h-5 w-5 text-blue-500"
+            name="gender"
+            checked={radioData === "Male"}
+            value="Male"
+            type="radio"
+            onChange={() => setRadioData("Male")}
+          />
+          <span>Male</span>
+        </label>
+        <label className="flex items-center space-x-2">
+          <input
+            className="form-radio h-5 w-5 text-blue-500"
+            name="gender"
+            checked={radioData === "Female"}
+            value="Female"
+            type="radio"
+            onChange={() => setRadioData("Female")}
+          />
+          <span>Female</span>
+        </label>
       </div>
 
-      <div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {users &&
           users
             .filter((ele) => {
               if (searchData.length === 0) {
                 return ele;
               } else {
-                return ele.name
-                  .toLowerCase()
-                  .includes(searchData.toLowerCase());
+                return ele.name.toLowerCase().includes(searchData.toLowerCase());
               }
             })
             .filter((ele) => {
@@ -85,9 +85,8 @@ const Read = () => {
                 return ele.gender === radioData;
               } else return ele;
             })
-
             .map((ele) => (
-              <div key={ele.id} className="bg-white shadow-md rounded-md p-4 my-4">
+              <div key={ele.id} className="bg-white shadow-md rounded-md p-4">
                 <h5 className="text-xl font-semibold">{ele.name}</h5>
                 <h6 className="text-gray-600">{ele.email}</h6>
                 <p className="text-gray-700">{ele.gender}</p>

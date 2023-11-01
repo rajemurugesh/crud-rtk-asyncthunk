@@ -15,6 +15,7 @@ export const createUser = createAsyncThunk(
         body: JSON.stringify(data),
       }
     );
+
     try {
       const result = await response.json();
       return result;
@@ -24,25 +25,23 @@ export const createUser = createAsyncThunk(
   }
 );
 
-//Read Action
+//read action
 export const showUser = createAsyncThunk(
   "showUser",
   async (args, { rejectWithValue }) => {
     const response = await fetch(
-        "https://64fecb4df8b9eeca9e291583.mockapi.io/crud"
-        );
+      "https://64fecb4df8b9eeca9e291583.mockapi.io/crud"
+    );
+
     try {
       const result = await response.json();
-
-      console.log("showuser action result:",result);
-
+      console.log(result);
       return result;
     } catch (error) {
       return rejectWithValue(error);
     }
   }
 );
-
 //delete action
 export const deleteUser = createAsyncThunk(
   "deleteUser",
@@ -86,8 +85,7 @@ export const updateUser = createAsyncThunk(
     }
   }
 );
-
-
+//Create userDetail slice using the builder callback NOTATION 
 export const userDetail = createSlice({
   name: "userDetail",
   initialState: {
@@ -97,7 +95,6 @@ export const userDetail = createSlice({
     searchData: [],
   },
 
-
   reducers: {
     searchUser: (state, action) => {
       console.log(action.payload);
@@ -105,63 +102,59 @@ export const userDetail = createSlice({
     },
   },
 
-
-  extraReducer: {
-    [createUser.pending]: (state) => {
-      state.loading = true;
-    },
-    [createUser.fulfilled]: (state, action) => {
-      state.loading = false;
-      state.users.push(action.payload);
-    },
-    [createUser.rejected]: (state, action) => {
-      state.loading = false;
-      state.error = action.payload.message;
-    },
-    [showUser.pending]: (state) => {
+  extraReducers: (builder) => {
+    builder
+      .addCase(createUser.pending, (state) => {
         state.loading = true;
-      },
-      [showUser.fulfilled]: (state, action) => {
+      })
+      .addCase(createUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.users.push(action.payload);
+      })
+      .addCase(createUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload.message;
+      })
+      .addCase(showUser.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(showUser.fulfilled, (state, action) => {
         state.loading = false;
         state.users = action.payload;
-        // console.log("Updated state.users:", state.users);
-      },
-      [showUser.rejected]: (state, action) => {
+      })
+      .addCase(showUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      },
-      [deleteUser.pending]: (state) => {
+      })
+      .addCase(deleteUser.pending, (state) => {
         state.loading = true;
-      },
-      [deleteUser.fulfilled]: (state, action) => {
+      })
+      .addCase(deleteUser.fulfilled, (state, action) => {
         state.loading = false;
         const { id } = action.payload;
         if (id) {
           state.users = state.users.filter((ele) => ele.id !== id);
         }
-      },
-      [deleteUser.rejected]: (state, action) => {
+      })
+      .addCase(deleteUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      },
-  
-      [updateUser.pending]: (state) => {
+      })
+      .addCase(updateUser.pending, (state) => {
         state.loading = true;
-      },
-      [updateUser.fulfilled]: (state, action) => {
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
         state.loading = false;
         state.users = state.users.map((ele) =>
           ele.id === action.payload.id ? action.payload : ele
         );
-      },
-      [updateUser.rejected]: (state, action) => {
+      })
+      .addCase(updateUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload.message;
-      },
+      });
   },
 });
-
-
 
 export default userDetail.reducer;
 
